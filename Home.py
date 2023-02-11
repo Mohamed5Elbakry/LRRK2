@@ -5,11 +5,11 @@ st.set_page_config(
     initial_sidebar_state='expanded')
 
 st.title('LRRK2 Activity prediction App')
-st.info('The LRRK2 Activity Prediction App can be used to predict whether a  molecule is active or inactive for lrrk2 target protein .')
+st.info('The LRRK2 Activity Prediction App can be used to predict whether a molecule is active or inactive for LRRK2 target protein .')
 
 st.subheader("App function:")
-st.write("The sidebar of App Contain Four function Page")
-st.write("The first page use can use it if you have a smiles of only one molecule and want to do know his activity ")
-st.write("The second page use can use it if you have file that contain more than smiles for more moleule ")
-st.write("The third page has information about model performance that used to predict the model")
-st.write("The last page has information about target protien")
+st.write("The sidebar of App Contain four function page")
+st.write("The first page can be used for prediction of only one molecule. It should be provided in SMILES format.")
+st.write("The second page is used for prediction of multiple molecules provided in SMILES format.")
+st.write("The third page has information about model performance.")
+st.write("The last page has information about LRRK2 protein.")
