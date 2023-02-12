@@ -5,8 +5,7 @@ import os
 import joblib
 
 st.set_page_config(
-    page_title="Virtual Screening",
-    initial_sidebar_state='expanded')
+    page_title="Virtual Screening")
 
 
 def PUbchemfp_desc_calc():
@@ -16,18 +15,23 @@ def PUbchemfp_desc_calc():
     output, error = process.communicate()
     os.remove('molecule.smi')
 
-# Model building
+# Model
 def the_model(input_data):
     load_model = joblib.load('model_1.0.2.pkl')
     # Make prediction
     prediction = load_model.predict(input_data)
     prediction_probability=load_model.predict_proba(input_data)
+    
     x=pd.DataFrame(prediction_probability,columns=["Inactive probability","Active_probability"])
     st.header('Prediction Result')
+    
     prediction_output = pd.Series(prediction, name='Activity')
     #proba_output=pd.Series(prediction_probability,name="prediction_proba")
+    
     molecule_name = pd.Series(reading_data[1], name='Molecule CHEMBL id/Molecule Name ')
+    
     Result= pd.concat([molecule_name, prediction_output,x], axis=1)
+    
     result = []
     for x in Result["Activity"]:
         if x==1:
@@ -60,7 +64,7 @@ if st.button('Predict'):
 
     PUbchemfp_desc_calc()
 
- # Read in calculated descriptors and display the dataframe
+ 
     st.subheader('Calculated Pubchem_Fingerprint descriptors')
     pubfp_calc = pd.read_csv("descriptors_output.csv")
     pubfp_calc.drop('Name', axis=1, inplace=True)
@@ -76,4 +80,4 @@ if st.button('Predict'):
 
     the_model(desc_subset)
 else:
-    st.info('Please upload input data  to start!')
+    st.warming('Please upload input data  to start!')
