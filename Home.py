@@ -1,8 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Home",
-    initial_sidebar_state='expanded')
+    page_title="Home")
 
 st.title('LRRK2 Activity prediction App')
 st.info('The LRRK2 Activity Prediction App can be used to predict whether a molecule is active or inactive for LRRK2 target protein .')
