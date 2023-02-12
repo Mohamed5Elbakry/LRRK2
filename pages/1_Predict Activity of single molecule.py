@@ -6,8 +6,7 @@ import subprocess
 
 # Page configuration
 st.set_page_config(
-  page_title='Predict Activity of single molecule',
-  initial_sidebar_state='expanded')
+  page_title='Predict Activity of single molecule')
 
 if 'smiles_input' not in st.session_state:
   st.session_state.smiles_input = ''
