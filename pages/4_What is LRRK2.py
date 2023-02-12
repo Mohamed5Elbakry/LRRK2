@@ -1,7 +1,6 @@
 import streamlit as st
 st.set_page_config(
-    page_title="Home",
-    initial_sidebar_state='expanded')
+    page_title="LRRK2")
 
 
 st.header("What is LRRK2?")
