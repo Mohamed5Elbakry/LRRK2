@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import joblib
 import pandas as pd
-#from padelpy import padeldescriptor
 import subprocess
 
 # Page configuration
@@ -10,11 +9,9 @@ st.set_page_config(
   page_title='Predict Activity of single molecule',
   initial_sidebar_state='expanded')
 
-# Session state
 if 'smiles_input' not in st.session_state:
   st.session_state.smiles_input = ''
 
-# Utilities
 if os.path.isfile('molecule.smi'):
   os.remove('molecule.smi') 
   
@@ -24,8 +21,7 @@ def PUbchemfp_desc_calc():
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     os.remove('molecule.smi')  
- 
-# The App    
+     
 st.title('LRRK2 Activity Prediction App')
 st.info('The LRRK2 Activity Prediction App can be used to predict whether a  molecule is active or inactive for lrrk2 target protein .')
 
@@ -50,7 +46,7 @@ if submit_button:
           st.text(st.session_state.smiles_input)
 
 
-      # Input SMILES saved to file
+      
           smile_file = open('molecule.smi', 'w')
           smile_file.write(f'{st.session_state.smiles_input}\tName_00')
           smile_file.close()
@@ -83,9 +79,19 @@ if st.session_state.smiles_input != '':
  model = joblib.load('model_1.0.2.pkl')
 
 if st.session_state.smiles_input != '':
-        st.subheader(' Predictions')
-        prediction = int(model.predict(desc_subset))
-        if prediction == 0:
-          st.info('Inactive')
-        if prediction == 1:
-          st.info('Active')
+        st.subheader('Predictions')
+        prediction = model.predict(desc_subset)
+        prediction_probability=model.predict_proba(desc_subset)
+        prediction_output = pd.Series(prediction, name='Activity')
+        x=pd.DataFrame(prediction_probability,columns=["Inactive probability","Active_probability"])
+        Result= pd.concat([prediction_output,x], axis=1)
+        result = []
+        for x in Result["Activity"]:
+          if x==1:
+            result.append("Active")
+          if x==0:
+            result.append("Inactive")
+        Result["Activity"]=result
+        st.write(Result)
+        prediction_csv = Result.to_csv(index=False)
+        st.download_button(label="Download prediction result",data=prediction_csv,file_name="My_result.csv")   
