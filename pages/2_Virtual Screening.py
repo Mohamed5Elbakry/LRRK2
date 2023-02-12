@@ -80,4 +80,6 @@ if st.button('Predict'):
 
     the_model(desc_subset)
 else:
-    st.warming('Please upload input data  to start!')
+    st.warning('Please upload input data  to start!')
+    
+    
