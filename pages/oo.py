@@ -65,7 +65,7 @@ if submit_button:
         with st.expander(' SMILES', expanded=True):
           
           st.text(st.session_state.smiles_input)
-          x=pd.DataFrame(st.session_state.smiles_input,columns="smiles")
+          x=pd.DataFrame(st.session_state.smiles_input,columns=["smiles"])
 
           #x=pd.DataFrame(st.session_state.smiles_input)
       # Input SMILES saved to file
