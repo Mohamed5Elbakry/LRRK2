@@ -96,7 +96,8 @@ if st.button('Predict'):
     df=df_with_200_descriptors[["MolWt","MolLogP","NumHAcceptors","NumHDonors"]]
     st.subheader("Lipinski Rule of 5 Descriptors")
     st.write(df)
-    st.download_button(label="Download Lipinski Rule of 5 Descriptors",data=df,file_name="My_result.csv")
+    rule_of5 = df.to_csv(index=False)
+    st.download_button(label="Download Lipinski Rule of 5 Descriptors",data=rule_of5,file_name="My_result.csv")
     the_model(desc_subset)
 else:
     st.warning('Please upload input data  to start!')
