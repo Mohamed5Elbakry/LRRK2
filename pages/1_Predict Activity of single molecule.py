@@ -3,9 +3,6 @@ import os
 import joblib
 import pandas as pd
 import subprocess
-from rdkit import Chem
-from rdkit.Chem import Descriptors
-from rdkit.ML.Descriptors import MoleculeDescriptors
 
 # Page configuration
 st.set_page_config(
@@ -22,30 +19,7 @@ def PUbchemfp_desc_calc():
     bashCommand = "java -Xms2G  -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints  -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml  -dir ./ -file descriptors.csv"
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
-    os.remove('molecule.smi')
-def descriptors(smiles):
-    mols = [Chem.MolFromSmiles(s) for s in smiles] 
-    calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
-    desc_names = calc.GetDescriptorNames()
-    
-    Mol_descriptors =[]
-    for mol in mols:
-
-        descriptors = calc.CalcDescriptors(mol)
-        Mol_descriptors.append(descriptors)
-    return Mol_descriptors,desc_names 
-    
-def descriptors(smiles):
-    mols = [Chem.MolFromSmiles(s) for s in smiles] 
-    calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
-    desc_names = calc.GetDescriptorNames()
-    
-    Mol_descriptors =[]
-    for mol in mols:
-
-        descriptors = calc.CalcDescriptors(mol)
-        Mol_descriptors.append(descriptors)
-    return Mol_descriptors,desc_names 
+    os.remove('molecule.smi')  
      
 st.title('LRRK2 Activity Prediction App')
 st.info('The LRRK2 Activity Prediction App can be used to predict whether a  molecule is active or inactive for lrrk2 target protein .')
@@ -75,7 +49,7 @@ if submit_button:
           smile_file = open('molecule.smi', 'w')
           smile_file.write(f'{st.session_state.smiles_input}\tName_00')
           smile_file.close()
-          
+
 
 if st.session_state.smiles_input != '':
         st.subheader(' Descriptors')
@@ -95,14 +69,6 @@ if st.session_state.smiles_input != '':
         desc_subset = descriptors[feature_list]
         st.write(desc_subset)
         st.write(desc_subset.shape)
-        
-        x=smile_file.to_csv('molecule.smi', sep = '\t', index = False,header=None)
-        first_column =x.iloc[:, 0] 
-        Mol_descriptors,desc_names =descriptors(first_column)
-        df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
-        df=df_with_200_descriptors[["MolWt","MolLogP","NumHAcceptors","NumHDonors"]]
-        st.subheader("Lipinski Rule of 5 Descriptors")
-        st.write(df)
 
 
 
