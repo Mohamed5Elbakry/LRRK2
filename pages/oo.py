@@ -91,7 +91,8 @@ if st.session_state.smiles_input != '':
         desc_subset = descriptors[feature_list]
         st.write(desc_subset)
         st.write(desc_subset.shape)
-        
+        x.to_csv('molecule.csv', sep = '\t', index = False,header=None)
+
         first_column = x.iloc[:, 0] 
         Mol_descriptors,desc_names =descriptors(first_column)
         df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
