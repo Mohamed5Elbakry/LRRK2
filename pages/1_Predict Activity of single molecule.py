@@ -96,8 +96,8 @@ if st.session_state.smiles_input != '':
         st.write(desc_subset)
         st.write(desc_subset.shape)
         
-        #smile_file.to_csv('molecule.smi', sep = '\t', index = False,header=None)
-        first_column =smile_file.iloc[:, 0] 
+        x=smile_file.to_csv('molecule.smi', sep = '\t', index = False,header=None)
+        first_column =x.iloc[:, 0] 
         Mol_descriptors,desc_names =descriptors(first_column)
         df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
         df=df_with_200_descriptors[["MolWt","MolLogP","NumHAcceptors","NumHDonors"]]
