@@ -3,10 +3,12 @@ import pandas as pd
 import subprocess
 import os
 import joblib
+from rdkit import Chem
+from rdkit.Chem import Descriptors
+from rdkit.ML.Descriptors import MoleculeDescriptors
 
 st.set_page_config(
     page_title="Virtual Screening")
-
 
 def PUbchemfp_desc_calc():
     # Performs the descriptor calculation
@@ -14,6 +16,21 @@ def PUbchemfp_desc_calc():
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     os.remove('molecule.smi')
+    
+def descriptors(smiles):
+    mols = [Chem.MolFromSmiles(s) for s in smiles] 
+    calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
+    desc_names = calc.GetDescriptorNames()
+    
+    Mol_descriptors =[]
+    for mol in mols:
+
+        descriptors = calc.CalcDescriptors(mol)
+        Mol_descriptors.append(descriptors)
+    return Mol_descriptors,desc_names 
+    
+    
+    
 
 # Model
 def the_model(input_data):
@@ -77,7 +94,14 @@ if st.button('Predict'):
     st.write(desc_subset)
     st.write(desc_subset.shape)
     #st.download_button(label="Download PubchemFingerprinter subset Descriptor",data=desc_subset,file_name="Descriptor_subset.csv")
-
+    first_column = reading_data.iloc[:, 0] 
+    Mol_descriptors,desc_names =descriptors(first_column)
+    df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
+    df=df_with_200_descriptors[["MolWt","MolLogP","NumHAcceptors","NumHDonors"]]
+    st.subheader("Lipinski Rule of 5 Descriptors")
+    st.write(df)
+    
+    
     the_model(desc_subset)
 else:
     st.warning('Please upload input data  to start!')
