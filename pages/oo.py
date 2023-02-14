@@ -65,8 +65,9 @@ if submit_button:
         with st.expander(' SMILES', expanded=True):
           
           st.text(st.session_state.smiles_input)
+          x=pd.DataFrame(st.session_state.smiles_input,columns="smiles")
 
-          x=pd.DataFrame(st.session_state.smiles_input)
+          #x=pd.DataFrame(st.session_state.smiles_input)
       # Input SMILES saved to file
           smile_file = open('molecule.smi', 'w')
           smile_file.write(f'{st.session_state.smiles_input}\tName_00')
