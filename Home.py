@@ -9,7 +9,7 @@ st.info('The LRRK2 Activity Prediction App can be used to predict whether a mole
 st.subheader("App function:")
 st.write("The sidebar of App Contain four function page")
 st.write("The first page can be used for prediction of only one molecule. It should be provided in SMILES format.")
-st.write("The second page is used for prediction of multiple molecules provided in SMILES format only 500 compounds.")
+st.write("The second page is used for prediction of multiple molecules provided in SMILES format .")
 st.write("The third page has information about model performance.")
 st.write("The last page has information about LRRK2 protein.")
 
