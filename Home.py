@@ -12,3 +12,5 @@ st.write("The first page can be used for prediction of only one molecule. It sho
 st.write("The second page is used for prediction of multiple molecules provided in SMILES format.")
 st.write("The third page has information about model performance.")
 st.write("The last page has information about LRRK2 protein.")
+
+st.warning('Limit 500 compounds per file')
