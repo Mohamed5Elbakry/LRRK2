@@ -13,4 +13,4 @@ st.write("The second page is used for prediction of multiple molecules provided 
 st.write("The third page has information about model performance.")
 st.write("The last page has information about LRRK2 protein.")
 
-st.warning('Limit 500 compounds per file')
+st.warning('Limit 250 compounds per file')
