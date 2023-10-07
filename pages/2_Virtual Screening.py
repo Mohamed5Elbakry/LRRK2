@@ -104,6 +104,6 @@ if st.button('Predict'):
     
     the_model(desc_subset)
 else:
-    st.warning('Limit 500 compounds per file')
+    st.warning('Limit 250 compounds per file')
     
     
